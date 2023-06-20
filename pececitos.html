@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div style="position:absolute;left: 500px;top: 500px;height: 50px; width: 50px;background-color: blue;" id="pez1" ></div>
+<button value="Right" id="btnRight"> Right </button> <button id="btnLeft">Left</button> <button id="btnDown">Down</button><br>
+<button id="btnAleatorio">Aleatorio</button>
+<button id="btnUp">UP</button>
+</body>
+</html>
+
+<script>
+    var horizontal=700
+    var vertical=500
+    var pez1=document.getElementById("pez1")
+    pez1.style.left=horizontal + "px"
+document.getElementById("btnRight").addEventListener("click", derecha)
+document.getElementById("btnUp").addEventListener("click", arriba)
+document.getElementById("btnLeft").addEventListener("click", izquierda)
+document.getElementById("btnDown").addEventListener("click", abajo)
+document.getElementById("pez1").addEventListener("mouseover", cambiacolor)
+document.getElementById("pez1").addEventListener("mouseout", volvecolor)
+document.getElementById("btnAleatorio").addEventListener("click", movimientoAleatorio)
+timer()
+function derecha () {
+    horizontal=horizontal-10
+    pez1.style.left=horizontal + "px"  
+}
+
+function arriba () {
+    vertical=vertical-10
+    pez1.style.top=vertical + "px"
+}
+
+function izquierda () {
+    horizontal=horizontal+10
+    pez1.style.left=horizontal + "px"
+}
+
+function abajo () {
+    vertical=vertical+10
+    pez1.style.top=vertical + "px"
+}
+
+function cambiacolor() {
+    pez1.style.backgroundColor="red"
+}
+
+function volvecolor() {
+    pez1.style.backgroundColor="blue"}
+
+function movimientoAleatorio() {
+   var cambioHorizontal = Math.floor(Math.random() * 10) - 5;
+   var cambioVertical= Math.floor(Math.random() * 10) - 5;
+   horizontal = horizontal + cambioHorizontal
+   vertical = vertical + cambioVertical
+   pez1.style.top=vertical + "px"
+   pez1.style.left=horizontal + "px"
+}
+function timer () {
+    movimientoAleatorio()
+    setTimeout(timer,100)
+}
+
+</script> 
