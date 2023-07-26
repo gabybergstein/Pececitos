@@ -1,0 +1,9 @@
+html  {
+    cursor: url("img/shark.png");
+
+}
+
+.ostra {
+   background-color: blueviolet;
+   background-image: url ("/img/ostra.jpg");
+}

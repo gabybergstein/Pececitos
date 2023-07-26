@@ -4,66 +4,172 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link href="pececitos.css" rel="stylesheet" type="text/css">
 </head>
-<body>
-    <div style="position:absolute;left: 500px;top: 500px;height: 50px; width: 50px;background-color: blue;" id="pez1" ></div>
-<button value="Right" id="btnRight"> Right </button> <button id="btnLeft">Left</button> <button id="btnDown">Down</button><br>
-<button id="btnAleatorio">Aleatorio</button>
-<button id="btnUp">UP</button>
+<body  id="body">
+
+<span id="escenario" style="position:absolute; background-color:rgb(47, 0, 255);width: 800px; height: 800px; cursor: url(img/cute-pink-shark-pointer.png), auto">
+    <label id="lblPuntaje">0</label>
+     <!--
+    <div style="position:absolute;left: 500px;top: 500px;height: 50px; width: 50px;" id="pez1" ></div>
+    <div style="position:absolute;left: 500px;top: 500px;height: 50px; width: 50px;" id="pez2" ></div>
+    <div style="position:absolute;left: 100px;top: 400px;height: 50px; width: 50px;" id="pez3" ></div>
+    <div style="position:absolute;left: 300px;top: 200px;height: 50px; width: 50px;" id="pez4" ></div>-->
+    <img id="ostra" src="img/ostra.jpg"  onmouseover="cerrar()"  style="position:absolute;left: 100px;top: 100px;height: 50px; width: 50px;" >
+
+</span>
 </body>
 </html>
 
 <script>
-    var horizontal=700
-    var vertical=500
-    var pez1=document.getElementById("pez1")
-    pez1.style.left=horizontal + "px"
-document.getElementById("btnRight").addEventListener("click", derecha)
-document.getElementById("btnUp").addEventListener("click", arriba)
-document.getElementById("btnLeft").addEventListener("click", izquierda)
-document.getElementById("btnDown").addEventListener("click", abajo)
-document.getElementById("pez1").addEventListener("mouseover", cambiacolor)
-document.getElementById("pez1").addEventListener("mouseout", volvecolor)
-document.getElementById("btnAleatorio").addEventListener("click", movimientoAleatorio)
-timer()
-function derecha () {
-    horizontal=horizontal-10
-    pez1.style.left=horizontal + "px"  
+    
+class Pez
+{
+    constructor(nombre,veces,horizontal,vertical,cambioHorizontal,cambioVertical,color)
+    {
+        this.nombre = nombre
+        this.veces = veces
+        this.horizontal = horizontal
+        this.vertical = vertical
+        this.cambioVertical= cambioVertical
+        this.cambioHorizontal = cambioHorizontal
+        this.color = color
+        
+        var img= "<img src='img/pez.png' style='position:absolute;height: 50px; width: 50px;' id='" + nombre +"'></img>"
+    
+        document.getElementById("escenario").innerHTML+= img
+    }
+}
+ var puntaje = 0
+function cambiarPuntaje() {
+    puntaje=puntaje+1
+    document.getElementById("lblPuntaje").innerText= puntaje
 }
 
-function arriba () {
-    vertical=vertical-10
-    pez1.style.top=vertical + "px"
+
+
+function cerrar ()
+{
+
+    document.getElementById("ostra").src= "img/ostracerrada.png"
+    document.getElementById("escenario").style.cursor="url(img/muertito.png), auto"
+   setTimeout ("reiniciar('perdio')", 500)
+  
+    
 }
 
-function izquierda () {
-    horizontal=horizontal+10
-    pez1.style.left=horizontal + "px"
+
+
+function reiniciar (mensaje)
+{
+    alert(mensaje)
+   location.reload ()
 }
 
-function abajo () {
-    vertical=vertical+10
-    pez1.style.top=vertical + "px"
+function generarColorAlAzar ()
+{
+    var rgb = "rgb(" 
+    rgb+= Math.floor(Math.random() * 255) ;
+    rgb+=","
+    rgb+=Math.floor(Math.random() * 255) ;
+    rgb+=","
+    rgb+=Math.floor(Math.random() * 255) ;
+    rgb+=")"
+    return rgb
+
+}
+   
+
+
+var  peces = new Array ()
+
+var cantidad
+
+cantidad= prompt("Cuantos peces queré?CON NUMEROS")
+
+var i=0
+    while (i < cantidad) {
+    i++
+    peces.push (new Pez("pez" + i, 0, Math.floor(Math.random() * 800), Math.floor(Math.random() * 800), 0, 0, generarColorAlAzar()))
+
 }
 
-function cambiacolor() {
-    pez1.style.backgroundColor="red"
+
+peces.forEach(element => {
+manejarPez(element)
+});
+       
+
+function manejarPez (pez) {
+
+    var p=document.getElementById(pez.nombre)
+    /*p.style.backgroundColor=pez.color*/
+   p.addEventListener("mouseover", cambiacolor)
+
+    timer(pez)
 }
 
-function volvecolor() {
-    pez1.style.backgroundColor="blue"}
-
-function movimientoAleatorio() {
-   var cambioHorizontal = Math.floor(Math.random() * 10) - 5;
-   var cambioVertical= Math.floor(Math.random() * 10) - 5;
-   horizontal = horizontal + cambioHorizontal
-   vertical = vertical + cambioVertical
-   pez1.style.top=vertical + "px"
-   pez1.style.left=horizontal + "px"
-}
-function timer () {
-    movimientoAleatorio()
-    setTimeout(timer,100)
+function cambiacolor(evt) {
+   evt.currentTarget.style.display= "none"
+   cambiarPuntaje()
+    if (estanTodosRojos()==true){
+        setTimeout ("reiniciar('gano')", 1000)
+        
+    }
 }
 
-</script> 
+
+
+function movimientoAleatorio(pez) {
+    pez.veces= pez.veces+1
+   if (pez.vertical<= 0) { 
+        pez.cambioVertical= 5
+
+    }
+    if (pez.horizontal<= 0) { 
+        pez.cambioHorizontal= 5
+
+    }
+    if (pez.vertical>= 700) { 
+        pez.cambioVertical= -5
+
+    }
+    if (pez.horizontal>= 700) { 
+        pez.cambioHorizontal= -5
+
+    }
+    if (pez.veces>=10) {
+        cambiar (pez)
+        pez.veces=0
+       
+
+    }
+   pez.horizontal = pez.horizontal + pez.cambioHorizontal
+   pez.vertical = pez.vertical + pez.cambioVertical
+   document.getElementById(pez.nombre).style.top=pez.vertical + "px"
+    document.getElementById(pez.nombre).style.left=pez.horizontal + "px"
+  
+}
+function timer (pez) {
+    movimientoAleatorio(pez)
+    setTimeout(function T(){timer(pez)},50)
+}
+function cambiar (pez) {
+    pez.cambioHorizontal = Math.floor(Math.random() * 10) - 5;
+         pez.cambioVertical= Math.floor(Math.random() * 10) - 5;
+}
+function estanTodosRojos()
+{
+    var i = 0
+    while(i < peces.length)
+    {
+        if (document.getElementById(peces[i].nombre).style.display != "none") {
+            return false
+        }
+        i++
+    }
+    return true
+}
+
+
+</script>
