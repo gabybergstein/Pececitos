@@ -3,19 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Pececitos!</title>
     <link href="pececitos.css" rel="stylesheet" type="text/css">
 </head>
 <body  id="body">
 
-<span id="escenario" style="position:absolute; background-color:rgb(47, 0, 255);width: 800px; height: 800px; cursor: url(img/cute-pink-shark-pointer.png), auto">
+<span id="escenario" style="position:absolute; background-color:rgb(47, 0, 255);width: 1600px; height: 800px; cursor: url(img/cute-pink-shark-pointer.png), auto">
     <label id="lblPuntaje">0</label>
      <!--
     <div style="position:absolute;left: 500px;top: 500px;height: 50px; width: 50px;" id="pez1" ></div>
     <div style="position:absolute;left: 500px;top: 500px;height: 50px; width: 50px;" id="pez2" ></div>
     <div style="position:absolute;left: 100px;top: 400px;height: 50px; width: 50px;" id="pez3" ></div>
     <div style="position:absolute;left: 300px;top: 200px;height: 50px; width: 50px;" id="pez4" ></div>-->
-    <img id="ostra" src="img/ostra.jpg"  onmouseover="cerrar()"  style="position:absolute;left: 100px;top: 100px;height: 50px; width: 50px;" >
+    <img id="ostra" src="img/ostrasinfondo.png"  onmouseover="cerrar()"  style="position:absolute;left: 10px;top: 450px;height: 200px; width: 200px;" >
 
 </span>
 </body>
@@ -85,7 +85,8 @@ var  peces = new Array ()
 
 var cantidad
 
-cantidad= prompt("Cuantos peces queré?CON NUMEROS")
+cantidad= prompt("Cuantos peces deseas en tu mar? Por favor introduce la cifra en numeros!")
+alert ("Recuerda que debes atraparlos con tu cursor sin pasar por la almeja, o moriras!")
 
 var i=0
     while (i < cantidad) {
