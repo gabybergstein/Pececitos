@@ -10,6 +10,7 @@
 
 <span id="escenario" style="position:absolute; background-color:rgb(47, 0, 255);width: 1600px; height: 800px; cursor: url(img/cute-pink-shark-pointer.png), auto">
     <label id="lblPuntaje">0</label>
+    <label id="lbltiempo">30</label>
      <!--
     <div style="position:absolute;left: 500px;top: 500px;height: 50px; width: 50px;" id="pez1" ></div>
     <div style="position:absolute;left: 500px;top: 500px;height: 50px; width: 50px;" id="pez2" ></div>
@@ -46,6 +47,20 @@ function cambiarPuntaje() {
     document.getElementById("lblPuntaje").innerText= puntaje
 }
 
+var tiempoRestante = 60
+function cambiarTiempo() {
+    tiempoRestante--
+    document.getElementById("lbltiempo").innerText= tiempoRestante
+}
+
+function relojDeArena () {
+    cambiarTiempo()
+    setTimeout(relojDeArena,1000)
+    if (tiempoRestante==0) {
+       
+        reiniciar("Dormiste, te comio otro tiburon mas grande")
+    }
+}
 
 
 function cerrar ()
@@ -80,6 +95,7 @@ function generarColorAlAzar ()
 }
    
 
+var nivel=1
 
 var  peces = new Array ()
 
@@ -91,7 +107,7 @@ alert ("Recuerda que debes atraparlos con tu cursor sin pasar por la almeja, o m
 var i=0
     while (i < cantidad) {
     i++
-    peces.push (new Pez("pez" + i, 0, Math.floor(Math.random() * 800), Math.floor(Math.random() * 800), 0, 0, generarColorAlAzar()))
+    peces.push (new Pez("pez" + i, 0, Math.floor(Math.random() * 1500), Math.floor(Math.random() * 800), 0, 0, generarColorAlAzar()))
 
 }
 
@@ -99,7 +115,7 @@ var i=0
 peces.forEach(element => {
 manejarPez(element)
 });
-       
+relojDeArena()   
 
 function manejarPez (pez) {
 
@@ -114,7 +130,7 @@ function cambiacolor(evt) {
    evt.currentTarget.style.display= "none"
    cambiarPuntaje()
     if (estanTodosRojos()==true){
-        setTimeout ("reiniciar('gano')", 1000)
+        setTimeout (pasarDeNivel, 1000)
         
     }
 }
@@ -135,7 +151,7 @@ function movimientoAleatorio(pez) {
         pez.cambioVertical= -5
 
     }
-    if (pez.horizontal>= 700) { 
+    if (pez.horizontal>= 1300) { 
         pez.cambioHorizontal= -5
 
     }
@@ -173,4 +189,17 @@ function estanTodosRojos()
 }
 
 
+function pasarDeNivel () {
+    tiempoRestante=60-nivel*10
+    nivel++
+    peces.forEach(element => {
+        revivirPez(element)
+    });
+    alert("Bienvenido al nivel "+ nivel+ " Tendras 10 sg menos para alcanzar tu objetivo")
+
+}
+
+function revivirPez(element){
+    document.getElementById(element.nombre).style.display= "inline"
+}
 </script>
